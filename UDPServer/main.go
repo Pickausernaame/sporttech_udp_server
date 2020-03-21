@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/eiannone/keyboard"
 	"github.com/Pickausernaame/sporttech_udp_server/UDPServer/tg_logger"
 	"github.com/Pickausernaame/sporttech_udp_server/UDPServer/udp_handler"
+	"github.com/eiannone/keyboard"
 )
 
 func main() {
@@ -63,7 +63,7 @@ loop:
 
 }
 
-func EscHandler(input chan int) {
+func EscHandler(input chan keyboard.Key) {
 	for {
 		_, char, _ := keyboard.GetKey()
 		input <- char

@@ -27,10 +27,10 @@ type Config struct {
 	PORT           string
 	URL            string
 	BATCH_CAPACITY int
-	//NAME_OF_ACTION string
-	MOCK_MODE     bool
-	TOKEN         string
-	TIME_OF_START time.Time
+	NAME_OF_ACTION string
+	MOCK_MODE      bool
+	TOKEN          string
+	TIME_OF_START  time.Time
 }
 
 func ConfigIni() (conf *Config) {
