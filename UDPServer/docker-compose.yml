@@ -1,0 +1,21 @@
+version: '3'
+services:
+  udp_server:
+      network_mode: host
+      build: .
+      stdin_open: true
+      tty: true
+      ports:
+        - "41234:41234"
+      environment:
+#        TEST_PROXY_MODE: "${TEST_PROXY_MODE}"
+        PROXY: "${PROXY}"
+        IP_ENV: "${IP_ENV}"
+        PORT_ENV: "${PORT_ENV}"
+        URL_ENV: "${URL_ENV}"
+        BATCH_CAP_ENV: "${BATCH_CAP_ENV}"
+        NAME_OF_ACTION_ENV: "${NAME_OF_ACTION_ENV}"
+        NAME_OF_USER_ENV: "${NAME_OF_USER_ENV}"
+        DEVICE_ID_ENV: "${DEVICE_ID_ENV}"
+        MOCK_MODE_ENV: "${MOCK_MODE_ENV}"
+        BOT_TOKEN: "${BOT_TOKEN}"
