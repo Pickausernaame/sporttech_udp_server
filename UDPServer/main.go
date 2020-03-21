@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/Pickausernaame/sporttech_udp_server/UDPServer/batch"
+	"github.com/Pickausernaame/sporttech_udp_server/UDPServer/models"
 	"github.com/Pickausernaame/sporttech_udp_server/UDPServer/tg_logger"
 	"github.com/Pickausernaame/sporttech_udp_server/UDPServer/udp_handler"
 	"github.com/eiannone/keyboard"
@@ -24,7 +26,7 @@ func main() {
 	//		time.Sleep(time.Second * 10)
 	//	}
 	//} else { // Работаем с IMU
-
+	fmt.Println("MAIN.go")
 	udp := udp_handler.New()
 	fmt.Println("UDP CREATED")
 	tglog := tg_logger.New(udp.Conf)
@@ -53,23 +55,31 @@ loop:
 				l := tg_logger.NewLog(udp.Tags, udp.Conf)
 				// Отправка лога в тг
 				tglog.SendLogInChannel(l)
+				b := batch.Batch{}
+				b.DataArray = make([]models.Data, udp.LOCAL_COUNTER)
+				for i := 0; i < udp.LOCAL_COUNTER; i++ {
+					b.DataArray = append(b.DataArray, udp.GLOBAL_BATCH[udp.GLOBAL_COUNTER].DataArray[i])
+				}
+				b.Send(udp.Conf)
 				break loop
+
 			}
 		default:
 			udp.Handle()
 		}
 	}
 	fmt.Println("END OF BATCHING")
-
 }
 
 func EscHandler(input chan keyboard.Key) {
 	for {
+		fmt.Println("PRESS ESC TO STOP TRAIN")
 		_, char, _ := keyboard.GetKey()
 		input <- char
 		if char == keyboard.KeyEsc {
 			keyboard.Close()
 			break
 		}
+
 	}
 }

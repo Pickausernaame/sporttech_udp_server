@@ -25,40 +25,44 @@ type Tags struct {
 var Exercises = [4]string{"squats", "push_ups", "chin_ups", "abs"}
 
 func TagsIni() (t *Tags) {
-
+	fmt.Println("starting of tags ini")
 	msg := `
-Supporting exercises:
-1) squats (приседания)
-2) push_ups (отжимания)
-3) chin_ups (подтягивания)
-4) abs (пресс)
-`
-
+		Supporting exercises:
+		1) squats (приседания)
+		2) push_ups (отжимания)
+		3) chin_ups (подтягивания)
+		4) abs (пресс)
+		`
 	t = &Tags{}
+
 	exist := false
+	fmt.Println("Insert your name: ")
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("Insert your name: ")
-	name, _ := reader.ReadString('\n')
-	fmt.Print("Insert your repeats: ")
-	repeats, _ := reader.ReadString('\n')
+	name := ""
+	fmt.Scanln(&name)
+
+	fmt.Println("Insert your repeats: ")
+	repeats := ""
+	fmt.Scanln(&repeats)
 	t.User = name + "_" + time.Now().Format("2006-01-02T15:04:05") + "_" + repeats
 	t.Repeats = repeats
 	fmt.Println("Your name tag: ", t.User)
 	fmt.Println(msg)
 	for {
-		fmt.Print("Insert number of exercise: ")
+		fmt.Println("Insert number of exercise: ")
 		num, _ := reader.ReadString('\n')
-		switch num[:len(num)-2] {
-		case "1":
+		fmt.Println(num)
+		switch num[0] {
+		case '1':
 			t.Exercise = Exercises[0]
 			break
-		case "2":
+		case '2':
 			t.Exercise = Exercises[1]
 			break
-		case "3":
+		case '3':
 			t.Exercise = Exercises[2]
 			break
-		case "4":
+		case '4':
 			t.Exercise = Exercises[3]
 			break
 		default:

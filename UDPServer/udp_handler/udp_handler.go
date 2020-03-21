@@ -40,13 +40,20 @@ type Udp_handler struct {
 //var GLOBAL_TAGS models.Tags
 
 func New() (u *Udp_handler) {
+
 	u = &Udp_handler{}
 
 	// Генерируем конфиг
 	u.Conf = config.ConfigIni()
-
+	fmt.Println("CONFIG READY")
 	// Генерируем Тэги
 	u.Tags = tags.TagsIni()
+	fmt.Println("TAGS READY")
+
+	fmt.Println("YOUR NAME: ", u.Tags.User)
+	fmt.Println("EXERCISE: ", u.Tags.Exercise)
+	fmt.Println("REPEATS: ", u.Tags.Repeats)
+	fmt.Println("")
 
 	// Выделяем место под батчи
 	u.GLOBAL_BATCH = make([]batch.Batch, PAGE_SIZE)
@@ -105,7 +112,7 @@ func (u *Udp_handler) Handle() {
 			return
 		}
 
-		u.GLOBAL_BATCH[u.GLOBAL_COUNTER].DataArray[u.LOCAL_COUNTER].Measurement = u.Conf.NAME_OF_ACTION
+		u.GLOBAL_BATCH[u.GLOBAL_COUNTER].DataArray[u.LOCAL_COUNTER].Measurement = u.Tags.Exercise
 
 		u.GLOBAL_BATCH[u.GLOBAL_COUNTER].DataArray[u.LOCAL_COUNTER].Time = time.Now()
 		defTime := time.Time{}

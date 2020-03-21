@@ -49,6 +49,7 @@ func (d *Batch) Send(conf *config.Config) {
 		log.Fatal(err)
 	}
 	b, _ := json.Marshal(d)
+	fmt.Println(string(b))
 	req, err := http.NewRequest("POST", conf.URL, bytes.NewBuffer(b))
 	if err != nil {
 		fmt.Println(conf.URL)
@@ -57,10 +58,11 @@ func (d *Batch) Send(conf *config.Config) {
 	fmt.Println("SENDING BATCH")
 	req.Header.Set("Authorization", "Token "+TOKEN)
 	req.Header.Add("Content-Type", "application/json")
-	_, err = client.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
 	}
+	fmt.Println(resp)
 	d.clear()
 	d.DataArray = make([]models.Data, conf.BATCH_CAPACITY)
 	return
