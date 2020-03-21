@@ -1,6 +1,7 @@
 version: '3'
 services:
   udp_server:
+      container_name: batcher
       network_mode: host
       build: .
       stdin_open: true

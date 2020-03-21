@@ -26,7 +26,7 @@ func main() {
 	//} else { // Работаем с IMU
 
 	udp := udp_handler.New()
-
+	fmt.Println("UDP CREATED")
 	tglog := tg_logger.New(udp.Conf)
 	fmt.Println("TESTING PROXY MODE")
 	err := tglog.TestProxy()
