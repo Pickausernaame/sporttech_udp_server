@@ -40,10 +40,19 @@ func TagsIni() (t *Tags) {
 	reader := bufio.NewReader(os.Stdin)
 	name := ""
 	fmt.Scanln(&name)
-
-	fmt.Println("Insert your repeats: ")
 	repeats := ""
-	fmt.Scanln(&repeats)
+	for {
+		fmt.Println("Insert your repeats(int): ")
+		fmt.Scanln(&repeats)
+		num, err := strconv.Atoi(repeats)
+		if err != nil {
+			fmt.Println("BAD INPUT PLEASE TRY AGAIN")
+			continue
+		}
+		repeats = strconv.Itoa(num)
+		break
+	}
+
 	t.User = name + "_" + time.Now().Format("2006-01-02T15:04:05") + "_" + repeats
 	t.Repeats = repeats
 	fmt.Println("Your name tag: ", t.User)

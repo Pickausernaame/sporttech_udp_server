@@ -39,12 +39,12 @@ type Udp_handler struct {
 //var GLOBAL_COUNTER int
 //var GLOBAL_TAGS models.Tags
 
-func New() (u *Udp_handler) {
+func New(c *config.Config) (u *Udp_handler) {
 
 	u = &Udp_handler{}
 
 	// Генерируем конфиг
-	u.Conf = config.ConfigIni()
+	u.Conf = c
 	fmt.Println("CONFIG READY")
 	// Генерируем Тэги
 	u.Tags = tags.TagsIni()

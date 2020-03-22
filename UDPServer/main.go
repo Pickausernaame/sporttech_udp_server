@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/Pickausernaame/sporttech_udp_server/UDPServer/batch"
+	"github.com/Pickausernaame/sporttech_udp_server/UDPServer/config"
 	"github.com/Pickausernaame/sporttech_udp_server/UDPServer/models"
 	"github.com/Pickausernaame/sporttech_udp_server/UDPServer/tg_logger"
 	"github.com/Pickausernaame/sporttech_udp_server/UDPServer/udp_handler"
@@ -26,15 +27,16 @@ func main() {
 	//		time.Sleep(time.Second * 10)
 	//	}
 	//} else { // Работаем с IMU
-	fmt.Println("MAIN.go")
-	udp := udp_handler.New()
-	fmt.Println("UDP CREATED")
-	tglog := tg_logger.New(udp.Conf)
+	c := config.ConfigIni()
+	tglog := tg_logger.New(c)
 	fmt.Println("TESTING PROXY MODE")
 	err := tglog.TestProxy()
 	if err != nil {
 		return
 	}
+
+	udp := udp_handler.New(c)
+	fmt.Println("UDP CREATED")
 
 	//udp.Handle()
 	err = keyboard.Open()
