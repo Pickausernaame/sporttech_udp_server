@@ -2,15 +2,14 @@ version: '3'
 services:
   udp_server:
       container_name: batcher
-      network_mode: host
+#      network_mode: host
       build: .
       stdin_open: true
       tty: true
       ports:
-        - "41234:41234"
+        - 43214:43214/udp
       environment:
 #        TEST_PROXY_MODE: "${TEST_PROXY_MODE}"
-        PROXY: "${PROXY}"
         IP_ENV: "${IP_ENV}"
         PORT_ENV: "${PORT_ENV}"
         URL_ENV: "${URL_ENV}"

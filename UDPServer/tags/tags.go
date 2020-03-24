@@ -32,6 +32,7 @@ func TagsIni() (t *Tags) {
 		2) push_ups (отжимания)
 		3) chin_ups (подтягивания)
 		4) abs (пресс)
+		5) test (тестовый режим)
 		`
 	t = &Tags{}
 
@@ -73,6 +74,9 @@ func TagsIni() (t *Tags) {
 			break
 		case '4':
 			t.Exercise = Exercises[3]
+			break
+		case '5':
+			t.Exercise = "test"
 			break
 		default:
 			fmt.Println("Wrong numb, please insert new numb")
