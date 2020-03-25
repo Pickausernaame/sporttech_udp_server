@@ -62,3 +62,9 @@ func (logger *TgLogger) SendLogInChannel(l *Log) {
 	}
 	return
 }
+
+func (logger *TgLogger) SendBadLogInChannel() {
+	bot, _ := tgbotapi.NewBotAPIWithClient(logger.Conf.TOKEN, logger.Client)
+	_, _ = bot.Send(tgbotapi.NewMessage(CHAT_ID, "ERROR! BAD REQUESTS"))
+	return
+}

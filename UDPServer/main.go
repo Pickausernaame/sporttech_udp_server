@@ -27,6 +27,7 @@ func main() {
 	//		time.Sleep(time.Second * 10)
 	//	}
 	//} else { // Работаем с IMU
+	ch := make(chan error)
 	c := config.ConfigIni()
 	tglog := tg_logger.New(c)
 	fmt.Println("TESTING PROXY MODE")
@@ -35,7 +36,7 @@ func main() {
 		return
 	}
 
-	udp := udp_handler.New(c)
+	udp := udp_handler.New(c, ch)
 	fmt.Println("UDP CREATED")
 
 	//udp.Handle()
@@ -47,7 +48,7 @@ func main() {
 
 	in := make(chan keyboard.Key)
 	go EscHandler(in)
-
+	badReqs := 0
 loop:
 	for {
 		select {
@@ -62,10 +63,18 @@ loop:
 				for i := 0; i < udp.LOCAL_COUNTER; i++ {
 					b.DataArray = append(b.DataArray, udp.GLOBAL_BATCH[udp.GLOBAL_COUNTER].DataArray[i])
 				}
-				b.Send(udp.Conf)
+				b.Send(udp.Conf, udp.ErrorChan)
 				break loop
-
 			}
+			break
+		case err := <- ch:
+			fmt.Println(err)
+			badReqs = badReqs + 1
+			if badReqs > 2 {
+				tglog.SendBadLogInChannel()
+				break loop
+			}
+			break
 		default:
 			udp.Handle()
 		}

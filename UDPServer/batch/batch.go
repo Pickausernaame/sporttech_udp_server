@@ -3,6 +3,7 @@ package batch
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/Pickausernaame/sporttech_udp_server/UDPServer/config"
 	"github.com/Pickausernaame/sporttech_udp_server/UDPServer/models"
@@ -41,7 +42,7 @@ func (d *Batch) clear() {
 	d.DataArray = nil
 }
 
-func (d *Batch) Send(conf *config.Config) {
+func (d *Batch) Send(conf *config.Config, ch chan error) {
 	client := http.Client{}
 	var buf bytes.Buffer
 	err := json.NewEncoder(&buf).Encode(&d)
@@ -56,11 +57,15 @@ func (d *Batch) Send(conf *config.Config) {
 		log.Fatal("SENDING BATCH ERROR ", err)
 	}
 	fmt.Println("SENDING BATCH ")
-	req.Header.Set("Authorization", "Token "+TOKEN)
+	req.Header.Set("Authorization", "Token " + TOKEN)
 	req.Header.Add("Content-Type", "application/json")
 	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
+	}
+	if (resp.Status == "500") {
+		ch <- errors.New("Bad request")
+		return
 	}
 	fmt.Println(resp)
 	d.clear()
