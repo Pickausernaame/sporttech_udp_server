@@ -55,14 +55,14 @@ func (d *Batch) Send(conf *config.Config) {
 		fmt.Println(conf.URL)
 		log.Fatal("SENDING BATCH ERROR ", err)
 	}
-	fmt.Println("SENDING BATCH")
+	fmt.Println("SENDING BATCH ")
 	req.Header.Set("Authorization", "Token "+TOKEN)
 	req.Header.Add("Content-Type", "application/json")
-	_, err = client.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
 	}
-	//fmt.Println(resp)
+	fmt.Println(resp)
 	d.clear()
 	d.DataArray = make([]models.Data, conf.BATCH_CAPACITY)
 	return
