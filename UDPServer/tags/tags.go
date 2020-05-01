@@ -22,7 +22,7 @@ type Tags struct {
 	Repeats  string
 }
 
-var Exercises = [4]string{"squats", "push_ups", "chin_ups", "abs"}
+var Exercises = [7]string{"squats", "push_ups", "chin_ups", "abs", "diamond_push_ups", "wide_push_ups", "clap_push_ups"}
 
 func TagsIni() (t *Tags) {
 	fmt.Println("starting of tags ini")
@@ -32,7 +32,10 @@ func TagsIni() (t *Tags) {
 		2) push_ups (отжимания)
 		3) chin_ups (подтягивания)
 		4) abs (пресс)
-		5) test (тестовый режим)
+		5) diamond_push_ups (алмазные отжимания)
+		6) wide_push_ups (широкие отжимания)
+		7) clap_push_ups (отжимания с хлопками)
+		8) test (тестовый режим)
 		`
 	t = &Tags{}
 
@@ -76,6 +79,15 @@ func TagsIni() (t *Tags) {
 			t.Exercise = Exercises[3]
 			break
 		case '5':
+			t.Exercise = Exercises[4]
+			break
+		case '6':
+			t.Exercise = Exercises[5]
+			break
+		case '7':
+			t.Exercise = Exercises[6]
+			break
+		case '8':
 			t.Exercise = "test"
 			break
 		default:
