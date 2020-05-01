@@ -33,16 +33,17 @@ type Udp_handler struct {
 	LOCAL_COUNTER  int
 	Tags           *tags.Tags
 	Conf           *config.Config
+	ErrorChan	   chan error
 }
 
 //var GLOBAL_BATCH = make([]batch.Batch, PAGE_SIZE)
 //var GLOBAL_COUNTER int
 //var GLOBAL_TAGS models.Tags
 
-func New(c *config.Config) (u *Udp_handler) {
+func New(c *config.Config, ch chan error) (u *Udp_handler) {
 
 	u = &Udp_handler{}
-
+	u.ErrorChan = ch
 	// Генерируем конфиг
 	u.Conf = c
 	fmt.Println("CONFIG READY")
@@ -130,7 +131,7 @@ func (u *Udp_handler) Handle() {
 		if u.LOCAL_COUNTER == u.Conf.BATCH_CAPACITY {
 			fmt.Println("SETTING BATCH TO DB")
 			old := u.GLOBAL_COUNTER
-			go u.GLOBAL_BATCH[old].Send(u.Conf)
+			go u.GLOBAL_BATCH[old].Send(u.Conf, u.ErrorChan)
 			if err != nil {
 				log.Fatal("BATCH SENDING ERROR: ", err)
 			}
@@ -141,4 +142,5 @@ func (u *Udp_handler) Handle() {
 			}
 		}
 	}
+	return
 }
